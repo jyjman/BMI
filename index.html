@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <title>BMI 측정기</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Roboto', sans-serif;
+    }
+    .mdl-card {
+      width: 400px;
+    }
+    .mdl-card__title {
+      padding: 24px;
+      color: white;
+    }
+    .mdl-card__supporting-text {
+      padding: 20px;
+    }
+    .mdl-card__actions {
+      padding: 20px;
+      text-align: center;
+    }
+    .mdl-textfield {
+      width: 100%;
+    }
+    .mdl-button {
+      width: 100%;
+    }
+    #resultImage {
+      max-width: 100%;
+    }
+    .mdl-textfield--floating-label.is-invalid .mdl-textfield__label {
+      color: #000000; /* 수정된 색상 */
+      font-size: 14px; /* 수정된 크기 */
+    }
+  </style>
+</head>
+<body>
+  <div class="mdl-card mdl-shadow--6dp">
+    <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
+      <h2 class="mdl-card__title-text">BMI 측정기</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="number" id="height" name="height" required>
+          <label class="mdl-textfield__label" for="height">신장(cm)</label>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="number" id="weight" name="weight" required>
+          <label class="mdl-textfield__label" for="weight">몸무게(kg)</label>
+        </div>
+        <div>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="male">
+            <input type="radio" id="male" class="mdl-radio__button" name="gender" value="male" checked>
+            <span class="mdl-radio__label">남성</span>
+          </label>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="female">
+            <input type="radio" id="female" class="mdl-radio__button" name="gender" value="female">
+            <span class="mdl-radio__label">여성</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" onclick="calculateBMI()">BMI 계산하기</button>
+    </div>
+    <div id="result" class="mdl-typography--headline mdl-color-text--accent"></div>
+    <div id="image" class="mdl-card mdl-shadow--2dp"></div>
+  </div>
+
+  <script>
+    function calculateBMI() {
+      var weight = document.getElementById('weight').value;
+      var height = document.getElementById('height').value / 100;
+      var gender = document.querySelector('input[name="gender"]:checked').value;
+      var bmi = weight / (height * height);
+      var resultText = "";
+      var imageSrc = "";
+
+      if (gender === "male") {
+        if (bmi < 18.5) {
+          resultText = "저체중입니다.";  
+        } else if (bmi >= 18.5 && bmi <= 25) {
+          resultText = "정상입니다.";
+        } else if (bmi > 25 && bmi <= 30) {
+          resultText = "과체중입니다.";
+        } else if (bmi > 30 && bmi <= 35) {
+          resultText = "비만입니다.";          
+        } else if (bmi > 35 && bmi <= 40) {
+          resultText = "고도비만입니다.";
+        } else {
+          resultText = "극심한 비만입니다.";
+        }
+      } else if (gender === "female") {
+        if (bmi < 20) {
+          resultText = "저체중입니다.";
+        } else if (bmi >= 20 && bmi <= 24) {
+          resultText = "정상입니다.";
+        } else if (bmi > 24 && bmi <= 30) {
+          resultText = "과체중입니다.";
+        } else if (bmi > 30 && bmi <= 35) {
+          resultText = "비만입니다.";
+        } else if (bmi > 35 && bmi <= 40) {
+          resultText = "고도비만입니다.";
+        } else {
+          resultText = "극심한 비만입니다.";
+        }
+      }
+
+      document.getElementById('result').innerHTML = "BMI: " + bmi.toFixed(2) + "<br>" + resultText;
+      
+    }
+  </script>
+</body>
+</html>
